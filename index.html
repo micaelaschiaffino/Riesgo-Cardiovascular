@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora ASCVD - CIAMA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9fc;
+      padding: 20px;
+      color: #333;
+      text-align: center;
+    }
+    header img {
+      max-width: 180px;
+    }
+    h1 {
+      color: #003366;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: inline-block;
+      max-width: 400px;
+      margin-top: 20px;
+    }
+    input, select, button {
+      margin: 8px 0;
+      padding: 10px;
+      width: 90%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    #resultado {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .verde { background-color: #d4edda; }
+    .amarillo { background-color: #fff3cd; }
+    .naranja { background-color: #ffeeba; }
+    .rojo { background-color: #f8d7da; }
+    footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #666;
+    }
+    .boton {
+      background: #006699;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #recomendaciones {
+      margin-top: 20px;
+      text-align: left;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo_ciama.png" alt="CIAMA">
+    <h1>Calculadora de Riesgo Cardiovascular - CIAMA</h1>
+    <p>Mujeres Blancas | Fórmula ASCVD validada</p>
+  </header>
+  <form onsubmit="event.preventDefault(); calcularRiesgo();">
+    <input type="number" id="edad" placeholder="Edad" min="40" max="79" required><br>
+    <input type="number" id="colTotal" placeholder="Colesterol Total (mg/dL)" required><br>
+    <input type="number" id="hdl" placeholder="HDL (mg/dL)" required><br>
+    <input type="number" id="pas" placeholder="Presión Sistólica (mmHg)" required><br>
+    <select id="hta">
+      <option value="0">¿Toma medicación para la presión?</option>
+      <option value="1">Sí</option>
+      <option value="0">No</option>
+    </select><br>
+    <select id="fumadora">
+      <option value="0">¿Fuma actualmente?</option>
+      <option value="1">Sí</option>
+      <option value="0">No</option>
+    </select><br>
+    <select id="diabetes">
+      <option value="0">¿Tiene diabetes?</option>
+      <option value="1">Sí</option>
+      <option value="0">No</option>
+    </select><br>
+    <button class="boton" type="submit">Calcular</button>
+  </form>
+  <div id="resultado"></div>
+  <div id="recomendaciones"></div>
+  <footer>
+    <p>* Esta herramienta es informativa. Consulte a su médico para una evaluación completa.</p>
+    <p>Instagram: <a href="https://instagram.com/ciamasanpedro" target="_blank">@ciamasanpedro</a> | WhatsApp: <a href="https://wa.me/543329524932?text=Hola%20CIAMA%2C%20consulto%20por%20mi%20riesgo%20cardiovascular" target="_blank">Vamos a ayudar a resolverlo</a></p>
+  </footer>
+  <script>
+    function calcularRiesgo() {
+      const edad = parseFloat(document.getElementById('edad').value);
+      const colTotal = parseFloat(document.getElementById('colTotal').value);
+      const hdl = parseFloat(document.getElementById('hdl').value);
+      const pas = parseFloat(document.getElementById('pas').value);
+      const hta = parseInt(document.getElementById('hta').value);
+      const fumadora = parseInt(document.getElementById('fumadora').value);
+      const diabetes = parseInt(document.getElementById('diabetes').value);
+
+      const ln = Math.log;
+
+      const coef = {
+        edad: -29.799,
+        colTotal: 13.540,
+        hdl: -13.578,
+        pas_tratada: 2.019,
+        pas_no_tratada: 1.957,
+        fumadora: 7.574,
+        diabetes: 0.661,
+        mean: -29.18
+      };
+      const survival = 0.9665;
+
+      let suma = coef.edad * ln(edad) + coef.colTotal * ln(colTotal) + coef.hdl * ln(hdl);
+      suma += (hta ? coef.pas_tratada : coef.pas_no_tratada) * ln(pas);
+      suma += coef.fumadora * fumadora + coef.diabetes * diabetes;
+
+      const riesgo10 = 1 - Math.pow(survival, Math.exp(suma - coef.mean));
+      const porcentaje = (riesgo10 * 100).toFixed(1);
+      const vitalicio = Math.min((riesgo10 * 1.25 * 100), 100).toFixed(1);
+
+      const resultado = document.getElementById('resultado');
+      let clase = 'verde', mensaje = 'Riesgo bajo';
+      if (porcentaje >= 20) { clase = 'rojo'; mensaje = 'Riesgo alto'; }
+      else if (porcentaje >= 7.5) { clase = 'naranja'; mensaje = 'Riesgo moderado-alto'; }
+      else if (porcentaje >= 5) { clase = 'amarillo'; mensaje = 'Riesgo moderado'; }
+
+      resultado.className = clase;
+      resultado.innerHTML = `<p>${mensaje}: ${porcentaje}% a 10 años | ${vitalicio}% riesgo vitalicio</p>`;
+
+      document.getElementById('recomendaciones').innerHTML = `
+        <h3>Recomendaciones generales:</h3>
+        <ul>
+          <li>Consulta con especialista en salud cardiovascular.</li>
+          <li>Controlar presión arterial, lípidos y glucemia.</li>
+          <li>Mejorar hábitos: alimentación saludable, ejercicio regular.</li>
+          <li>Considerar medicación preventiva si corresponde.</li>
+        </ul>`;
+    }
+  </script>
+</body>
+</html>
