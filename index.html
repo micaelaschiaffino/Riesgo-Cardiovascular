@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora CIAMA - Riesgo Cardiovascular</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f4f8; color: #333; padding: 20px; text-align: center; }
+    header img { max-width: 150px; margin-bottom: 10px; }
+    input, select, button { padding: 10px; margin: 5px; width: 90%; max-width: 300px; border: 1px solid #ccc; border-radius: 5px; }
+    #result { margin-top: 20px; font-size: 1.2em; padding: 15px; border-radius: 10px; }
+    .boton { background: #007bff; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    footer { margin-top: 30px; font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://i.imgur.com/Bd4U7T1.png" alt="Logo CIAMA" />
+    <h1>Calculadora de Riesgo Cardiovascular - CIAMA</h1>
+    <p>Estimación del riesgo a 10 años y riesgo vitalicio</p>
+  </header>
+
+  <form id="form">
+    <input type="number" id="age" placeholder="Edad (años)" min="40" max="79" required /><br />
+    <input type="number" id="tc" placeholder="Colesterol total (mg/dL)" required /><br />
+    <input type="number" id="hdl" placeholder="HDL (mg/dL)" required /><br />
+    <input type="number" id="sbp" placeholder="Presión sistólica (mmHg)" required /><br />
+    <select id="htn" required>
+      <option value="">¿Usa medicación antihipertensiva?</option>
+      <option value="1">Sí</option>
+      <option value="0">No</option>
+    </select><br />
+    <select id="diabetes" required>
+      <option value="">¿Tiene diabetes?</option>
+      <option value="1">Sí</option>
+      <option value="0">No</option>
+    </select><br />
+    <select id="smoker" required>
+      <option value="">¿Fuma actualmente?</option>
+      <option value="1">Sí</option>
+      <option value="0">No</option>
+    </select><br />
+    <button type="button" class="boton" onclick="calculateRisk()">Calcular riesgo</button>
+  </form>
+
+  <div id="result"></div>
+
+  <footer>
+    <p>* Esta herramienta es informativa y no reemplaza la consulta médica.</p>
+    <p><a href="https://wa.me/543329524932?text=Hola%20CIAMA%2C%20consulto%20por%20mi%20riesgo%20cardiovascular.%20Vamos%20a%20ayudar%20a%20resolverlo.">Contactar por WhatsApp CIAMA</a></p>
+    <p><a href="https://instagram.com/ciamasanpedro" target="_blank">Instagram: @ciamasanpedro</a></p>
+  </footer>
+
+  <script>
+    function calculateRisk() {
+      const age = parseFloat(document.getElementById('age').value);
+      const tc = parseFloat(document.getElementById('tc').value);
+      const hdl = parseFloat(document.getElementById('hdl').value);
+      const sbp = parseFloat(document.getElementById('sbp').value);
+      const htn = parseInt(document.getElementById('htn').value);
+      const diabetes = parseInt(document.getElementById('diabetes').value);
+      const smoker = parseInt(document.getElementById('smoker').value);
+
+      const ln = Math.log;
+
+      const coef = {
+        age: -29.799,
+        tc: 13.540,
+        hdl: -13.578,
+        sbpTx: 2.019,
+        sbpNoTx: 1.957,
+        smoker: 7.574,
+        diabetes: 0.661,
+        mean: -29.18,
+      };
+      const baselineSurvival = 0.9665;
+
+      const lnAge = ln(age);
+      const lnTC = ln(tc);
+      const lnHDL = ln(hdl);
+      const lnSBP = ln(sbp);
+
+      let sum = coef.age * lnAge + coef.tc * lnTC + coef.hdl * lnHDL +
+                coef.smoker * smoker + coef.diabetes * diabetes +
+                (htn ? coef.sbpTx : coef.sbpNoTx) * lnSBP;
+
+      const risk = 1 - Math.pow(baselineSurvival, Math.exp(sum - coef.mean));
+      const percentage = (risk * 100).toFixed(1);
+      const lifetimeRisk = (Math.min(100, percentage * 1.25)).toFixed(1);
+
+      const resultDiv = document.getElementById('result');
+      let color = percentage >= 20 ? 'red' : (percentage >= 7.5 ? 'orange' : (percentage >= 5 ? 'yellow' : 'green'));
+      let label = percentage >= 20 ? 'Riesgo alto' : (percentage >= 7.5 ? 'Riesgo moderado-alto' : (percentage >= 5 ? 'Riesgo moderado' : 'Riesgo bajo');
+
+      resultDiv.style.backgroundColor = color;
+      resultDiv.innerHTML = `<p>${label}<br>Riesgo a 10 años: ${percentage}%<br>Riesgo vitalicio estimado: ${lifetimeRisk}%</p>`;
+    }
+  </script>
+</body>
+</html>
