@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Riesgo Cardiovascular - CIAMA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="logo_ciama.png" alt="CIAMA" width="120">
+        <h1>Calculadora de Riesgo Cardiovascular - CIAMA</h1>
+        <p>Estimación del riesgo a 10 años y riesgo vitalicio</p>
+    </header>
+
+    <main>
+        <form id="riskForm">
+            <input type="number" id="edad" placeholder="Edad" required>
+            <input type="number" id="colTotal" placeholder="Colesterol total" required>
+            <input type="number" id="hdl" placeholder="HDL" required>
+            <input type="number" id="pas" placeholder="Presión arterial sistólica" required>
+
+            <label for="tratamiento">¿Está en tratamiento antihipertensivo?</label>
+            <select id="tratamiento">
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select>
+
+            <label for="fumador">¿Fuma?</label>
+            <select id="fumador">
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select>
+
+            <label for="diabetico">¿Es diabético/a?</label>
+            <select id="diabetico">
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select>
+
+            <button type="submit">Calcular riesgo</button>
+        </form>
+
+        <div id="resultado"></div>
+    </main>
+
+    <footer>
+        <p>* Esta herramienta es informativa. No reemplaza una consulta médica.</p>
+        <p><a href="https://wa.me/543329524932" target="_blank">Contactar por WhatsApp CIAMA</a></p>
+        <p><a href="https://www.instagram.com/ciamasanpedro" target="_blank">Instagram: @ciamasanpedro</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
