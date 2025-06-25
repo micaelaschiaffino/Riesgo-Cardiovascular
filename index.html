@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Calculadora de Riesgo Cardiovascular - CIAMA</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container">
+        <img src="logo_ciama.png" alt="Logo CIAMA" class="logo" />
+        <h1>Calculadora de Riesgo Cardiovascular - CIAMA</h1>
+        <p>Estimación del riesgo a 10 años según ASCVD</p>
+        <form id="riskForm">
+            <input type="number" id="age" placeholder="Edad" required />
+            <select id="gender">
+                <option value="male">Masculino</option>
+                <option value="female">Femenino</option>
+            </select>
+            <select id="race">
+                <option value="white">Blanca</option>
+                <option value="african_american">Afroamericana</option>
+                <option value="other">Otra</option>
+            </select>
+            <input type="number" id="totalChol" placeholder="Colesterol total" required />
+            <input type="number" id="hdl" placeholder="HDL" required />
+            <input type="number" id="sbp" placeholder="Presión sistólica" required />
+            <select id="htn">
+                <option value="yes">Sí</option>
+                <option value="no">No</option>
+            </select>
+            <select id="smoker">
+                <option value="yes">Sí</option>
+                <option value="no">No</option>
+            </select>
+            <select id="diabetes">
+                <option value="yes">Sí</option>
+                <option value="no">No</option>
+            </select>
+            <button type="submit">Calcular Riesgo</button>
+        </form>
+        <div id="result"></div>
+        <div class="recomendaciones">
+            <h3>Recomendaciones:</h3>
+            <ul>
+                <li>Controlar factores de riesgo cardiovascular.</li>
+                <li>Consultar al especialista si el riesgo es elevado.</li>
+                <li>Modificar hábitos: dieta, ejercicio, dejar de fumar.</li>
+            </ul>
+        </div>
+        <p class="nota">* Esta herramienta no reemplaza la consulta médica.</p>
+        <a href="https://wa.me/543329524932" class="whatsapp" target="_blank">📞 Contactar CIAMA por WhatsApp</a><br>
+        <a href="https://www.instagram.com/ciamasanpedro" target="_blank">@ciamasanpedro</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
