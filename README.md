@@ -1,18 +1,18 @@
 
-# Calculadora ASCVD CIAMA (Mujeres Blancas)
+# Calculadora Riesgo Cardiovascular CIAMA
 
-Esta herramienta permite estimar el riesgo cardiovascular a 10 años y el riesgo vitalicio para mujeres blancas, utilizando la fórmula oficial del Pooled Cohort Equations (ASCVD Risk Score).
+Calculadora basada en la ecuación ASCVD (American College of Cardiology). Realiza una estimación del riesgo de enfermedad cardiovascular a 10 años.
 
-## ¿Cómo usarla?
-1. Ingresar los datos solicitados en la calculadora.
-2. Presionar el botón "Calcular riesgo".
-3. El resultado incluye color de alerta, porcentaje a 10 años y estimado vitalicio.
-4. Contacto directo con CIAMA y acceso a Instagram institucional.
+## Instrucciones
 
-## Aclaración
-Esta calculadora es informativa. No reemplaza una consulta médica profesional.
+1. Abrir el archivo `index.html` en tu navegador.
+2. Ingresar los datos solicitados.
+3. El resultado se muestra con colores e incluye recomendaciones.
+
+## Contacto
+
+📱 [WhatsApp CIAMA](https://wa.me/543329524932)  
+📸 [Instagram CIAMA](https://instagram.com/ciamasanpedro)
 
 ---
-
-**CIAMA - Centro Integral de Atención Médica Ambulatoria**  
-San Pedro, Buenos Aires · @ciamasanpedro
+CIAMA - Centro Integral de Atención Médica Ambulatoria
